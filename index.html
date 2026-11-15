@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Old Craig Hi-Fi Prototype</title>
+<title>Old Craig Hi-Fi Prototype v2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
@@ -13,14 +13,18 @@
   --desk:#E8E5F0; --paper:#F7F6FA; --surface:#FFFFFF; --ink:#1B1726; --muted:#655F7A; --line:#E1DDEA;
   --accent:#5B2FC9; --accent-ink:#FFFFFF; --accent-soft:#EEE8FC; --price:#16773B; --mark:#FFD447; --mark-ink:#1B1726;
   --warn:#A8481A; --warn-soft:#FDF0E7; --bezel:#1B1726; --shadow:0 30px 60px -30px rgba(40,20,90,.45);
+  /* v2: control borders meet WCAG 1.4.11 (3:1). --control 3.9:1 on surface; --mark-edge 5:1 on surface */
+  --control:#847D95; --mark-edge:#8C6A00;
   --f-display:"Gabarito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --control:#7A7394; --mark-edge:#FFD447;
   --desk:#0C0A12; --paper:#13111B; --surface:#1D1A28; --ink:#EEEAF7; --muted:#A49EB9; --line:#2F2A3E;
   --accent:#A98CFF; --accent-ink:#140F22; --accent-soft:#2A2246; --price:#5FD38B; --mark:#FFD447; --mark-ink:#1B1726;
   --warn:#F2A66E; --warn-soft:#3A2418; --bezel:#2E2940; --shadow:0 30px 60px -30px rgba(0,0,0,.8); color-scheme:dark }}
 :root[data-theme="dark"]{
+  --control:#7A7394; --mark-edge:#FFD447;
   --desk:#0C0A12; --paper:#13111B; --surface:#1D1A28; --ink:#EEEAF7; --muted:#A49EB9; --line:#2F2A3E;
   --accent:#A98CFF; --accent-ink:#140F22; --accent-soft:#2A2246; --price:#5FD38B; --mark:#FFD447; --mark-ink:#1B1726;
   --warn:#F2A66E; --warn-soft:#3A2418; --bezel:#2E2940; --shadow:0 30px 60px -30px rgba(0,0,0,.8); color-scheme:dark }
@@ -61,10 +65,10 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .wordmark small{font-weight:500;color:var(--muted);font-size:12px;letter-spacing:0;margin-left:4px}
 .iconbtn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none}
 .iconbtn:hover{background:var(--accent-soft)}
-.citychip{margin-left:auto;display:flex;align-items:center;gap:4px;border:1px solid var(--line);background:var(--surface);
+.citychip{margin-left:auto;display:flex;align-items:center;gap:4px;border:1.5px solid var(--control);background:var(--surface);
   border-radius:999px;padding:6px 10px 6px 8px;font-weight:700;font-size:13px}
 .citychip svg{width:16px;height:16px;color:var(--accent)}
-.field{display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:0 12px;height:46px;width:100%;min-width:0}
+.field{display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--control);border-radius:14px;padding:0 12px;height:46px;width:100%;min-width:0}
 .field:focus-within{border-color:var(--accent)}
 .field input{border:0;background:none;outline:none;flex:1;min-width:0;height:100%}
 .field svg{color:var(--muted)}
@@ -99,12 +103,15 @@ button.field{color:var(--muted);text-align:left}
 .sellcard .chev{margin-left:auto}
 
 .chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;white-space:nowrap}
-.chip.on{background:var(--mark);border-color:var(--mark);color:var(--mark-ink)}
+.chip{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--control);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.chip.on{background:var(--mark);border-color:var(--mark-edge);color:var(--mark-ink)}
+/* v2: selected answer chips carry a check mark, so state is not shown by color alone */
+.chip.on[data-a="fset"]::before,.chip.on[data-a="jset"]::before,.chip.on[data-a="sellset"]::before,.chip.on[data-a="ask"]::before,.chip.on[data-a="askown"]::before{content:"✓";font-weight:800}
+.chip.clear{border-style:dashed;color:var(--accent)}
 .chip svg{width:14px;height:14px}
 .chip.ghost{border-style:dashed}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 16px 6px}
-.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.seg{display:inline-flex;border:1.5px solid var(--control);border-radius:10px;overflow:hidden;background:var(--surface)}
 .seg button{padding:5px 10px;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--muted)}
 .seg button.on{background:var(--ink);color:var(--paper)}
 .seg svg{width:15px;height:15px}
@@ -118,8 +125,15 @@ select.sort{border:0;background:none;font-size:13px;font-weight:700;color:var(--
 .rcard h3{margin:0;font-size:15px;font-weight:700;line-height:1.25;padding-right:30px}
 .rcard .meta{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .rcard .heart{position:absolute;top:6px;right:6px}
+.rcard.sel{border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent)}
+.phbtn{display:block;flex:none}
+.ssrow{display:flex;gap:8px;align-items:stretch}
+.ssrow .ss{flex:1;min-width:0}
+.ssrow .rmss{flex:none;border:1.5px solid var(--control);border-radius:14px;width:46px;display:grid;place-items:center;color:var(--muted);background:var(--surface)}
+.ss .end{display:flex;align-items:center;gap:6px;color:var(--muted)}
+.ss .end svg{width:18px;height:18px}
 .cmpbox{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--muted);margin-top:auto;align-self:flex-start;padding:4px 0}
-.cmpbox .box{width:18px;height:18px;border:1.5px solid var(--line);border-radius:5px;display:grid;place-items:center;background:var(--surface)}
+.cmpbox .box{width:18px;height:18px;border:1.5px solid var(--control);border-radius:5px;display:grid;place-items:center;background:var(--surface)}
 .cmpbox.on{color:var(--accent)}
 .cmpbox.on .box{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .cmpbox .box svg{width:13px;height:13px;stroke-width:3}
@@ -152,7 +166,13 @@ select.sort{border:0;background:none;font-size:13px;font-weight:700;color:var(--
 .gallery .ph{flex:none;width:100%;height:100%;scroll-snap-align:start}
 .galwrap{position:relative}
 .galcount{position:absolute;right:12px;bottom:12px;background:rgba(20,15,30,.72);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;font-variant-numeric:tabular-nums}
-.galhint{position:absolute;left:12px;bottom:12px;background:rgba(20,15,30,.72);color:#fff;font-size:12px;border-radius:999px;padding:3px 10px}
+.galnav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:var(--surface);color:var(--ink);display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.25);z-index:2}
+.galnav.prev{left:10px}.galnav.next{right:10px}
+.galnav[disabled]{opacity:0;pointer-events:none}
+.dots{position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 0 0 1px rgba(20,15,30,.45)}
+.dots i.on{background:#fff;width:18px;border-radius:4px}
+.gallery:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
 .overbar{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;z-index:2}
 .overbar .iconbtn{background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .ltitle{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 16px 4px}
@@ -170,11 +190,11 @@ select.sort{border:0;background:none;font-size:13px;font-weight:700;color:var(--
 .avatar{width:42px;height:42px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;color:var(--accent);flex:none}
 .ask{padding:6px 16px 20px}
 .ask h2{font-family:var(--f-display);font-size:17px;margin:12px 0 10px}
-textarea.own{width:100%;margin-top:10px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);padding:10px;min-height:70px;resize:vertical}
+textarea.own{width:100%;margin-top:10px;border:1.5px solid var(--control);border-radius:12px;background:var(--surface);padding:10px;min-height:70px;resize:vertical}
 .safety{margin:0 16px 20px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
 
 .btn{height:48px;border-radius:14px;padding:0 18px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:var(--accent-ink);flex:1}
-.btn.sec{background:var(--surface);color:var(--ink);border:1.5px solid var(--line);flex:none}
+.btn.sec{background:var(--surface);color:var(--ink);border:1.5px solid var(--control);flex:none}
 .btn[disabled]{opacity:.4;cursor:not-allowed}
 .btn.full{width:100%}
 .btn.sm{height:36px;border-radius:10px;font-size:13px;padding:0 12px}
@@ -202,7 +222,9 @@ table.cmp td.best::after{content:" ●";color:var(--price);font-size:10px}
 
 /* sell */
 .prog{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:4px 16px 0}
-.prog i{height:5px;border-radius:3px;background:var(--line)}
+.prog i{height:5px;border-radius:3px;background:var(--control);opacity:.55}
+.prog i.on{opacity:1}
+[tabindex="-1"]:focus{outline:none}
 .prog i.on{background:var(--accent)}
 .proglbl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:4px 16px 0;font-size:11.5px;color:var(--muted)}
 .proglbl .on{color:var(--ink);font-weight:700}
@@ -211,16 +233,24 @@ table.cmp td.best::after{content:" ●";color:var(--price);font-size:10px}
 .form .l em{color:var(--warn);font-style:normal}
 .form .hint{font-size:12.5px;color:var(--muted);margin-top:4px}
 .form .err{font-size:12.5px;color:var(--warn);margin-top:5px;font-weight:700}
-.form .field.bad{border-color:var(--warn)}
-.form textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);padding:10px 12px;min-height:90px;resize:vertical}
-.form select{width:100%;height:46px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);padding:0 10px}
+.form .field.bad{border-color:var(--warn);border-width:2px}
+.errsum{border:2px solid var(--warn);background:var(--warn-soft);border-radius:14px;padding:12px 14px}
+.errsum b{display:block;margin-bottom:4px}
+.errsum ul{margin:0;padding-left:18px}
+.errsum a{color:var(--warn);font-weight:700}
+.errline{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--warn);font-size:13px;font-weight:700;margin-top:8px}
+.grp{border-radius:12px}
+.form [id]{scroll-margin-top:80px}
+.grp.bad{outline:2px solid var(--warn);outline-offset:4px}
+.form textarea{width:100%;border:1.5px solid var(--control);border-radius:14px;background:var(--surface);padding:10px 12px;min-height:90px;resize:vertical}
+.form select{width:100%;height:46px;border:1.5px solid var(--control);border-radius:14px;background:var(--surface);padding:0 10px}
 .photogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .photogrid .ph{aspect-ratio:1;border-radius:12px;max-width:100%}
 .ptile{position:relative}
 .ptile .rm{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:rgba(20,15,30,.75);color:#fff;display:grid;place-items:center}
 .ptile .rm svg{width:14px;height:14px}
 .ptile .cover{position:absolute;left:4px;bottom:4px;background:var(--mark);color:var(--mark-ink);font-size:11px;font-weight:700;border-radius:6px;padding:1px 6px}
-.addph{aspect-ratio:1;border:2px dashed var(--line);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700;color:var(--accent);background:var(--surface)}
+.addph{aspect-ratio:1;border:2px dashed var(--control);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700;color:var(--accent);background:var(--surface)}
 .suggest{display:flex;align-items:center;gap:8px;background:var(--accent-soft);border-radius:12px;padding:10px 12px;font-size:13.5px}
 .suggest svg{color:var(--accent)}
 .done{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:56px 24px 20px}
@@ -257,7 +287,7 @@ table.cmp td.best::after{content:" ●";color:var(--price);font-size:10px}
 .fgroup h3{font-size:13px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .minmax{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .toggle{display:flex;justify-content:space-between;align-items:center;width:100%;font-weight:700}
-.sw{width:46px;height:28px;border-radius:999px;background:var(--line);position:relative;transition:background .15s}
+.sw{width:46px;height:28px;border-radius:999px;background:var(--control);position:relative;transition:background .15s}
 .sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .sw.on{background:var(--accent)}
 .sw.on::after{left:21px}
@@ -290,7 +320,7 @@ table.cmp td.best::after{content:" ●";color:var(--price);font-size:10px}
 .task .who{font-size:13px;color:var(--muted)}
 .task ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;counter-reset:s}
 .task li{display:flex;gap:10px;align-items:flex-start;font-size:14px;counter-increment:s}
-.task li::before{content:counter(s);flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.task li::before{content:counter(s);flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--control);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
 .task li.ok{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .task li.ok::before{content:"✓";background:var(--price);border-color:var(--price);color:var(--surface)}
 .task .btn{flex:none;height:38px;font-size:14px}
@@ -298,6 +328,14 @@ table.cmp td.best::after{content:" ●";color:var(--price);font-size:10px}
 .ctrl .chip{cursor:pointer}
 .jump{display:flex;flex-wrap:wrap;gap:6px}
 .legend{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.changes{background:var(--surface);border:1.5px solid var(--accent);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.changes h2{font-family:var(--f-display);font-size:19px;margin:0}
+.changes ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.changes li{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:start;font-size:14px;border-top:1px solid var(--line);padding-top:10px}
+.changes li:first-child{border-top:0;padding-top:0}
+.changes .src{grid-column:1;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:700}
+.changes .what{grid-column:1}
+.changes .chip{grid-column:2;grid-row:1/span 2;align-self:center}
 
 @media (max-width: 900px){
   .stage{flex-direction:column;align-items:center;gap:28px;padding-block:16px 40px}
@@ -324,10 +362,21 @@ table.cmp td.best::after{content:" ●";color:var(--price);font-size:10px}
 
   <aside class="notes" aria-label="Test script">
     <div>
-      <div class="eyebrow">HCDD 331 · Craigslist redesign · Hi-fi prototype v1</div>
+      <div class="eyebrow">HCDD 331 · Craigslist redesign · Hi-fi prototype v2</div>
       <h1>Old Craig, <span>organized.</span></h1>
-      <p>A hybrid of our three lo-fi options: the tab-bar hub from Option C, the search box and filter chips from Option A, and the required listing fields and compare view from Option B. Every task below is fully clickable. Start one to set the persona's city and jump to the first screen.</p>
+      <p>A hybrid of our three lo-fi options: the tab-bar hub from Option C, the search box and filter chips from Option A, and the required listing fields and compare view from Option B. Version 2 applies five recommendations from Norman, Nielsen and Molich, Shneiderman, and WCAG 2.2. Every task below is fully clickable.</p>
     </div>
+
+    <section class="changes" aria-labelledby="chg-h">
+      <h2 id="chg-h">What changed in v2</h2>
+      <ol>
+        <li><span class="src">Norman · Signifiers and feedback</span><span class="what">Photo arrows and position dots on listings; chevrons on tappable rows; selected listings outlined.</span><button class="chip" data-show="r1">Show</button></li>
+        <li><span class="src">Nielsen #3 · User control and freedom</span><span class="what">Undo for removed filters, saved items and saved searches; Clear all; a close button on every sheet.</span><button class="chip" data-show="r2">Show</button></li>
+        <li><span class="src">Shneiderman #5 · Prevent errors</span><span class="what">Number-only price fields, a min-higher-than-max check, and an error summary that links to each field.</span><button class="chip" data-show="r3">Show</button></li>
+        <li><span class="src">WCAG 2.2 · 1.4.11 Non-text Contrast</span><span class="what">Field, chip, checkbox and switch borders raised from 1.3:1 to 3.9:1; selected chips get a check mark.</span><button class="chip" data-show="r4">Show</button></li>
+        <li><span class="src">WCAG 2.2 · 2.1.1 Keyboard, 2.4.3 Focus Order</span><span class="what">Sheets take focus, trap Tab, close with Esc and return focus; photos get text alternatives.</span><button class="chip" data-show="r5">Show</button></li>
+      </ol>
+    </section>
 
     <section class="task" id="task-sarah">
       <header><div><h2>Find a desk</h2><div class="who">Sarah · Buyer · Seattle · on her lunch break</div></div>
@@ -430,7 +479,9 @@ function art(kind,o={},v=0){
   }
   return `<svg viewBox="${vb.join(' ')}" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="200" height="108" fill="${wall}"/><rect y="108" width="200" height="42" fill="${floor}"/><ellipse cx="100" cy="132" rx="70" ry="5" fill="rgba(0,0,0,.12)"/>${b}</svg>`;
 }
-const ph=(it,v=0,cls='')=>it.photos===0?`<span class="ph ${cls}"><span class="nophoto">${ic('camera')}<br>No photos</span></span>`:`<span class="ph ${cls}">${art(it.kind,it.o,v)}</span>`;
+/* v2 (WCAG 1.1.1): pass a label to give a photo a text alternative; unlabeled photos are decorative */
+const ph=(it,v=0,cls='',label='')=>{const a=label?`role="img" aria-label="${esc(label)}"`:'';
+  return it.photos===0?`<span class="ph ${cls}" ${a}><span class="nophoto">${ic('camera')}<br>No photos</span></span>`:`<span class="ph ${cls}" ${a}>${art(it.kind,it.o,v)}</span>`};
 
 /* ---------- sample data ---------- */
 const DESKS=[
@@ -516,8 +567,19 @@ function done(p,i){if(!S.done[p].has(i)){S.done[p].add(i);renderPanel()}}
 let toastTimer;
 function toast(msg,undo){
   const t=$('#toast');t.innerHTML=`<span>${esc(msg)}</span>${undo?'<button data-a="undo">Undo</button>':''}`;t.hidden=false;
-  toast.undo=undo;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,3200);
+  toast.undo=undo;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,undo?6000:3200);
 }
+/* v2 helpers: breadcrumb, saved-search rows, sell-form field map */
+function crumb(){const q=S.q;
+  if(q==='furniture'||/desk/.test(q))return `${esc(S.city)} › For sale › <b>Furniture</b>`;
+  if(!q)return `${esc(S.city)} › For sale › <b>Free stuff</b>`;
+  return `${esc(S.city)} › Search › <b>“${esc(q)}”</b>`}
+const ssBtn=s=>`<button class="ss" data-a="openss" data-id="${s.id}"><span><strong>${esc(s.label)}</strong><span class="muted">${s.fresh?'New since your last visit':'Nothing new yet'}</span></span><span class="end"><span class="badge ${s.fresh?'':'zero'}">${s.fresh} new</span>${ic('chev')}</span></button>`;
+const FIELD={title:'sell-title',cat:'sell-cat',price:'sell-price',cond:'grp-cond',pickup:'grp-pickup',works:'grp-works',photos:'addph'};
+const LABEL={title:'Title',cat:'Category',price:'Price',cond:'Condition',pickup:'Pickup or delivery',works:'Does it work?',photos:'Photos'};
+function clearErr(k){if(!S.sell.err[k])return;delete S.sell.err[k];document.getElementById('err-'+k)?.remove();
+  const f=document.getElementById(FIELD[k]);if(f){f.removeAttribute('aria-invalid');f.removeAttribute('aria-describedby');f.closest('.field')?.classList.remove('bad');f.classList.remove('bad')}
+  document.querySelector(`#errsum [data-f="${FIELD[k]}"]`)?.closest('li')?.remove();const es=$('#errsum');if(es&&!es.querySelector('li'))es.remove()}
 function matchDesks(f,q){
   q=(q||'').trim().toLowerCase();
   let list=DESKS.filter(d=>{
@@ -558,7 +620,7 @@ V.home=()=>{
     <button class="citychip" data-a="city">${ic('pin')}${esc(S.city)}</button></div>
   <div class="pad"><button class="field" data-a="tab" data-t="search">${ic('search')}What are you looking for?</button></div>
   <div class="sect"><h2>Your saved searches</h2><button class="lnk" data-a="tab" data-t="saved" data-st="searches">See all</button></div>
-  <div class="pad stack">${S.searches.map(s=>`<button class="ss" data-a="openss" data-id="${s.id}"><span><strong>${esc(s.label)}</strong><span class="muted">${s.fresh?'New since your last visit':'Nothing new yet'}</span></span><span class="badge ${s.fresh?'':'zero'}">${s.fresh} new</span></button>`).join('')}</div>
+  <div class="pad stack">${S.searches.length?S.searches.map(ssBtn).join(''):`<p class="small muted" style="margin:0">No saved searches. Tap Save search on any results page.</p>`}</div>
   ${rec.length?`<div class="sect"><h2>Recently viewed</h2></div>
   <div class="hscroll">${rec.map(d=>`<button class="rv" data-a="listing" data-id="${d.id}">${ph(d)}<b>${esc(d.title)}</b><span class="price small">$${d.price}</span></button>`).join('')}</div>`:''}
   <div class="sect"><h2>Browse</h2></div>
@@ -599,19 +661,19 @@ V.results=()=>{
   if(!list.length) res=`<div class="empty">${ic('search')}<h3>No ${esc(S.q||'listings')} match these filters</h3><p class="muted small">Remove a filter above or widen the distance. You can also save this search and we'll show new matches on Home.</p><button class="btn sm" data-a="filters">Edit filters</button></div>`;
   else if(S.view==='grid') res=`<div class="gridres">${list.map(d=>`<div class="gcard"><button data-a="listing" data-id="${d.id}" style="display:block;width:100%;text-align:left">${ph(d)}<span class="price">$${d.price}</span><b>${esc(d.title)}</b><span class="meta">${d.dist} mi · ${d.cond}</span></button>${heart(d.id,S.saved.has(d.id))}</div>`).join('')}</div>`;
   else if(S.view==='map') res=`<div class="mapview">${mapBg()}<span class="you" style="left:48%;top:46%" title="You"></span>${list.map(d=>`<button class="pin" style="left:${d.x}%;top:${d.y}%" data-a="listing" data-id="${d.id}">$${d.price}</button>`).join('')}</div>`;
-  else res=`<div class="res">${list.map(d=>{const on=S.cmp.includes(d.id);return`<div class="rcard"><button data-a="listing" data-id="${d.id}" style="display:contents">${ph(d)}</button><div class="info"><button data-a="listing" data-id="${d.id}" style="text-align:left"><h3>${esc(d.title)}</h3><span class="price">$${d.price}</span><div class="meta">${d.dist} mi · ${d.cond} · ${ago(d.hrs)}</div></button><button class="cmpbox ${on?'on':''}" data-a="cmp" data-id="${d.id}" aria-pressed="${on}"><span class="box">${on?ic('check'):''}</span>Compare</button></div>${heart(d.id,S.saved.has(d.id))}</div>`}).join('')}</div>`;
+  else res=`<div class="res">${list.map(d=>{const on=S.cmp.includes(d.id);return`<div class="rcard ${on?'sel':''}"><button class="phbtn" data-a="listing" data-id="${d.id}" tabindex="-1" aria-hidden="true">${ph(d)}</button><div class="info"><button data-a="listing" data-id="${d.id}" style="text-align:left"><h3>${esc(d.title)}</h3><span class="price">$${d.price}</span><div class="meta">${d.dist} mi · ${d.cond} · ${ago(d.hrs)}</div></button><button class="cmpbox ${on?'on':''}" data-a="cmp" data-id="${d.id}" aria-pressed="${on}"><span class="box">${on?ic('check'):''}</span>Compare</button></div>${heart(d.id,S.saved.has(d.id))}</div>`}).join('')}</div>`;
   const n=S.cmp.length;
   return{tab:'search',body:`
   <div class="appbar"><button class="iconbtn" data-a="back" aria-label="Back">${ic('back')}</button>
     <form id="resform" style="flex:1;min-width:0"><label class="field">${ic('search')}<input id="q-res" value="${esc(S.q)}" placeholder="Search" autocomplete="off"></label></form></div>
-  <div class="crumb">${esc(S.city)} › For sale › <b>Furniture</b></div>
-  <div class="pad chips" style="margin-top:10px">${chips.map(([k,l])=>`<button class="chip on" data-a="chipx" data-k="${k}" aria-label="Remove ${l}">${l} ${ic('x')}</button>`).join('')}<button class="chip" data-a="filters">${ic('filter')}Filters (${chips.length})</button></div>
+  <div class="crumb">${crumb()}</div>
+  <div class="pad chips" style="margin-top:10px">${chips.map(([k,l])=>`<button class="chip on" data-a="chipx" data-k="${k}" aria-label="Remove ${l}">${l} ${ic('x')}</button>`).join('')}<button class="chip" data-a="filters">${ic('filter')}Filters (${chips.length})</button>${chips.length>1?`<button class="chip clear" data-a="clearall">Clear all</button>`:''}</div>
   <div class="toolbar"><div class="seg" role="group" aria-label="View">${[['list','List'],['grid','Grid'],['map','Map']].map(([k,l])=>`<button class="${S.view===k?'on':''}" data-a="view" data-m="${k}">${ic(k)}${l}</button>`).join('')}</div>
     <button class="chip ${already?'on':''}" data-a="savesearch">${ic('bookmark')}${already?'Saved':'Save search'}</button></div>
   <div class="toolbar" style="padding-top:0"><span class="count">${list.length} result${list.length===1?'':'s'}</span>
     <label class="small muted">Sort <select class="sort" id="sort">${[['closest','Closest'],['newest','Newest'],['price','Lowest price']].map(([k,l])=>`<option value="${k}" ${S.sort===k?'selected':''}>${l}</option>`).join('')}</select></label></div>
   ${res}`,
-  foot:n?`<span class="small"><b>${n}</b> selected${n<2?' · pick one more':''}</span><button class="btn" data-a="compare" ${n<2?'disabled':''}>Compare (${n})</button>`:''};
+  foot:n?`<span class="small"><b>${n}</b> selected${n<2?' · pick one more':''}<br><button class="msglink" data-a="clearsel" data-kind="sale">Clear selection</button></span><button class="btn" data-a="compare" ${n<2?'disabled':''}>Compare (${n})</button>`:''};
 };
 function mapBg(){return `<svg class="bg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
   <rect width="100" height="100" fill="var(--accent-soft)"/><path d="M0 62 C20 58 30 70 52 64 S80 50 100 56 L100 74 C80 70 60 82 40 80 S10 76 0 80z" fill="color-mix(in srgb,#5aa0d8 40%,var(--surface))"/>
@@ -626,8 +688,8 @@ V.listing=(p)=>{
   return{tabs:false,body:`
   <div class="galwrap"><div class="overbar"><button class="iconbtn" data-a="back" aria-label="Back to results">${ic('back')}</button>
     <span class="row">${heart(d.id,S.saved.has(d.id))}<button class="iconbtn" data-a="share" aria-label="Share">${ic('share')}</button></span></div>
-    <div class="gallery" id="gallery">${d.photos?Array.from({length:n},(_,i)=>ph(d,i)).join(''):ph(d)}</div>
-    ${d.photos>1?`<span class="galhint">Swipe for more</span>`:''}<span class="galcount" id="galcount">1 / ${n}</span></div>
+    <div class="gallery" id="gallery" ${d.photos>1?`tabindex="0" role="region" aria-label="Photos of ${esc(d.title)}. Use the arrow keys to move between photos."`:''}>${d.photos?Array.from({length:n},(_,i)=>ph(d,i,'',`Photo ${i+1} of ${n}: ${d.title}`)).join(''):ph(d,0,'',`No photos for ${d.title}`)}</div>
+    ${d.photos>1?`<button class="galnav prev" data-a="galnav" data-d="-1" aria-label="Previous photo">${ic('back')}</button><button class="galnav next" data-a="galnav" data-d="1" aria-label="Next photo">${ic('chev')}</button><span class="dots" aria-hidden="true">${Array.from({length:n},(_,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</span>`:''}<span class="galcount" id="galcount" aria-live="polite">1 / ${n}</span></div>
   <div class="ltitle"><h1>${esc(d.title)}</h1><span class="price">$${d.price}</span></div>
   <div class="pad small muted">${esc(d.hood)} · For sale by owner · Furniture</div>
   <div class="facts">${fact('Condition',d.cond)}${fact('Distance',d.dist+' mi away')}${fact('Posted',ago(d.hrs))}${fact('Pickup',d.pickup)}${fact('Dimensions',d.dims,'wide')}</div>
@@ -662,7 +724,7 @@ V.compare=(p)=>{
   <div class="cmpwrap"><table class="cmp"><thead><tr><th scope="col"><span class="sr"></span></th>${items.map(it=>`<th scope="col"><button data-a="${isJob?'job':'listing'}" data-id="${it.id}">${esc(it.title)}</button></th>`).join('')}</tr></thead>
   <tbody>${rows.map(([lab,fn])=>`<tr><th scope="row">${lab}</th>${items.map(it=>{const v=fn(it);return v?`<td class="${isBest(lab,it)?'best':''}">${esc(v)}</td>`:'<td class="nl">Not listed</td>'}).join('')}</tr>`).join('')}</tbody></table></div>
   ${isJob?'':`<div class="pad row" style="gap:8px;flex-wrap:wrap">${items.map(it=>`<span class="ph" style="width:64px;height:64px;border-radius:10px">${art(it.kind,it.o)}</span>`).join('')}</div>`}`,
-  foot:`<button class="btn sec" data-a="saveall" data-kind="${isJob?'job':'sale'}">${ic('heart')}Save all</button><button class="btn" data-a="clearcmp" data-kind="${isJob?'job':'sale'}">Done comparing</button>`};
+  foot:`<button class="btn sec" data-a="saveall" data-kind="${isJob?'job':'sale'}">${ic('heart')}Save all</button><button class="btn" data-a="back">Back to ${isJob?'jobs':'results'}</button>`};
 };
 
 V.jobs=()=>{
@@ -671,11 +733,11 @@ V.jobs=()=>{
   return{tab:'home',body:`
   <div class="appbar"><button class="iconbtn" data-a="back" aria-label="Back">${ic('back')}</button><h1>Jobs</h1><button class="citychip" data-a="city">${ic('pin')}${esc(S.city)}</button></div>
   <div class="crumb">Jobs › <b>Accounting &amp; finance</b></div>
-  <div class="pad chips" style="margin-top:10px">${chips.map(([k,l])=>`<button class="chip on" data-a="jchipx" data-k="${k}">${l} ${ic('x')}</button>`).join('')}<button class="chip" data-a="jfilters">${ic('filter')}Filters (${chips.length})</button></div>
+  <div class="pad chips" style="margin-top:10px">${chips.map(([k,l])=>`<button class="chip on" data-a="jchipx" data-k="${k}" aria-label="Remove ${l}">${l} ${ic('x')}</button>`).join('')}<button class="chip" data-a="jfilters">${ic('filter')}Filters (${chips.length})</button></div>
   <div class="toolbar"><span class="count">${list.length} job${list.length===1?'':'s'} · newest first</span></div>
-  ${list.length?`<div class="res">${list.map(j=>{const on=S.jcmp.includes(j.id);return`<div class="rcard" style="flex-direction:column;gap:4px"><button data-a="job" data-id="${j.id}" style="text-align:left"><h3>${esc(j.title)}</h3><div class="tags"><span class="tag pay">${esc(j.pay)}</span><span class="tag">${j.style}</span><span class="tag">${j.type}</span></div><div class="meta">${esc(j.co)} · ${esc(j.hood)} · ${j.days}d ago</div></button><button class="cmpbox ${on?'on':''}" data-a="jcmp" data-id="${j.id}" aria-pressed="${on}"><span class="box">${on?ic('check'):''}</span>Compare</button>${heart(j.id,S.savedJobs.has(j.id),'savejob')}</div>`}).join('')}</div>`
+  ${list.length?`<div class="res">${list.map(j=>{const on=S.jcmp.includes(j.id);return`<div class="rcard ${on?'sel':''}" style="flex-direction:column;gap:4px"><button data-a="job" data-id="${j.id}" style="text-align:left"><h3>${esc(j.title)}</h3><div class="tags"><span class="tag pay">${esc(j.pay)}</span><span class="tag">${j.style}</span><span class="tag">${j.type}</span></div><div class="meta">${esc(j.co)} · ${esc(j.hood)} · ${j.days}d ago</div></button><button class="cmpbox ${on?'on':''}" data-a="jcmp" data-id="${j.id}" aria-pressed="${on}"><span class="box">${on?ic('check'):''}</span>Compare</button>${heart(j.id,S.savedJobs.has(j.id),'savejob')}</div>`}).join('')}</div>`
   :`<div class="empty"><h3>No jobs match</h3><p class="muted small">Lower the minimum pay or add another work style.</p><button class="btn sm" data-a="jfilters">Edit filters</button></div>`}`,
-  foot:n?`<span class="small"><b>${n}</b> selected${n<2?' · pick one more':''}</span><button class="btn" data-a="jcompare" ${n<2?'disabled':''}>Compare (${n})</button>`:''};
+  foot:n?`<span class="small"><b>${n}</b> selected${n<2?' · pick one more':''}<br><button class="msglink" data-a="clearsel" data-kind="job">Clear selection</button></span><button class="btn" data-a="jcompare" ${n<2?'disabled':''}>Compare (${n})</button>`:''};
 };
 
 V.job=(p)=>{
@@ -700,7 +762,10 @@ V.sell=()=>{
   const labels=['Photos','Title','Details','Preview'];
   const head=`<div class="appbar"><button class="small" style="font-weight:700;color:var(--accent)" data-a="cancelsell">Cancel</button><h1 style="font-size:18px;margin:0 auto">Sell an item</h1><span class="small muted">Step ${st} of 4</span></div>
    <div class="prog">${labels.map((_,i)=>`<i class="${i<st?'on':''}"></i>`).join('')}</div><div class="proglbl">${labels.map((l,i)=>`<span class="${i===st-1?'on':''}">${i<st-1?'✓ ':''}${l}</span>`).join('')}</div>`;
-  const err=k=>s.err[k]?`<div class="err">${esc(s.err[k])}</div>`:'';
+  const err=k=>s.err[k]?`<div class="err" id="err-${k}">${esc(s.err[k])}</div>`:'';
+  const inv=k=>s.err[k]?`aria-invalid="true" aria-describedby="err-${k}"`:'';
+  const ek=Object.keys(s.err);
+  const sum=ek.length?`<div class="errsum" id="errsum" tabindex="-1" role="alert"><b>Fix ${ek.length} thing${ek.length>1?'s':''} to continue</b><ul>${ek.map(k=>`<li><a href="#" data-a="tofield" data-f="${FIELD[k]}">${LABEL[k]}: ${esc(s.err[k])}</a></li>`).join('')}</ul></div>`:'';
   let body='',foot='';
   if(st===1){
     body=`<div class="form"><div><h2 class="h1" style="font-size:20px">Start with photos</h2><p class="muted small" style="margin:4px 0 0">Listings with photos get far more replies. The first photo becomes the cover.</p></div>
@@ -709,18 +774,18 @@ V.sell=()=>{
     foot=`<button class="btn" data-a="sellnext" ${s.photos.length?'':'disabled'}>Next: title</button>`;
   } else if(st===2){
     const sug=suggestCat(s.title);
-    body=`<div class="form"><div><label class="l" for="sell-title">What are you selling? <em>*</em></label><label class="field ${s.err.title?'bad':''}"><input id="sell-title" value="${esc(s.title)}" placeholder="e.g. Old wood dresser" maxlength="70" autocomplete="off"></label>${err('title')}<div class="hint">Short and specific. Buyers search by these words.</div></div>
+    body=`<div class="form">${sum}<div><label class="l" for="sell-title">What are you selling? <em>*</em></label><label class="field ${s.err.title?'bad':''}"><input id="sell-title" value="${esc(s.title)}" placeholder="e.g. Old wood dresser" maxlength="70" autocomplete="off" ${inv('title')}></label>${err('title')}<div class="hint">Short and specific. Buyers search by these words. <span id="title-count">${s.title.length}</span>/70</div></div>
     <div id="catsug">${catSuggestHTML(sug)}</div>
-    <div><label class="l" for="sell-cat">Category <em>*</em></label><select id="sell-cat"><option value="">Choose a category</option>${['Furniture','Electronics','Appliances','Bikes','Baby & kids','Household','Other'].map(c=>`<option ${s.cat===c?'selected':''}>${c}</option>`).join('')}</select>${err('cat')}</div></div>`;
+    <div><label class="l" for="sell-cat">Category <em>*</em></label><select id="sell-cat" ${inv('cat')} class="${s.err.cat?'bad':''}"><option value="">Choose a category</option>${['Furniture','Electronics','Appliances','Bikes','Baby & kids','Household','Other'].map(c=>`<option ${s.cat===c?'selected':''}>${c}</option>`).join('')}</select>${err('cat')}</div></div>`;
     foot=`<button class="btn sec" data-a="sellprev">Back</button><button class="btn" data-a="sellnext">Next: details</button>`;
   } else if(st===3){
-    const chipsRow=(key,opts)=>`<div class="chips">${opts.map(o=>`<button class="chip ${s[key]===o?'on':''}" data-a="sellset" data-k="${key}" data-val="${o}">${o}</button>`).join('')}</div>`;
-    body=`<div class="form"><div class="suggest">${ic('tag')}<span><b>${esc(s.cat)}</b> details. Fields marked <em style="color:var(--warn);font-style:normal">*</em> appear on every ${esc(s.cat.toLowerCase())} listing so buyers can compare.</span></div>
-    <div><label class="l" for="sell-price">Price <em>*</em></label><label class="field ${s.err.price?'bad':''}"><span class="muted">$</span><input id="sell-price" inputmode="numeric" value="${esc(s.price)}" placeholder="0 to list it free"></label>${err('price')}</div>
-    <div><span class="l">Condition <em>*</em></span>${chipsRow('cond',['New','Like new','Good','Fair'])}${err('cond')}</div>
+    const chipsRow=(key,opts)=>`<div class="chips grp ${s.err[key]?'bad':''}" id="grp-${key}" role="group" aria-labelledby="lbl-${key}" tabindex="-1" ${s.err[key]?`aria-describedby="err-${key}"`:''}>${opts.map(o=>`<button class="chip ${s[key]===o?'on':''}" data-a="sellset" data-k="${key}" data-val="${o}">${o}</button>`).join('')}</div>`;
+    body=`<div class="form">${sum}<div class="suggest">${ic('tag')}<span><b>${esc(s.cat)}</b> details. Fields marked <em style="color:var(--warn);font-style:normal">*</em> appear on every ${esc(s.cat.toLowerCase())} listing so buyers can compare.</span></div>
+    <div><label class="l" for="sell-price">Price <em>*</em></label><label class="field ${s.err.price?'bad':''}"><span class="muted">$</span><input id="sell-price" inputmode="numeric" pattern="[0-9]*" maxlength="6" value="${esc(s.price)}" placeholder="0 to list it free" ${inv('price')}></label>${err('price')}<div class="hint">Whole dollars only. Enter 0 to list it as free.</div></div>
+    <div><span class="l" id="lbl-cond">Condition <em>*</em></span>${chipsRow('cond',['New','Like new','Good','Fair'])}${err('cond')}</div>
     ${s.cat==='Furniture'?`<div><label class="l" for="sell-dims">Dimensions</label><label class="field"><input id="sell-dims" value="${esc(s.dims)}" placeholder="W × D × H, in inches"></label><div class="hint">Optional, but buyers ask for it most.</div></div>`:''}
-    ${s.cat==='Electronics'?`<div><span class="l">Does it work? <em>*</em></span>${chipsRow('works',['Works fully','Partly works','For parts'])}${err('works')}</div><div><label class="l" for="sell-brand">Brand and model</label><label class="field"><input id="sell-brand" value="${esc(s.brand)}" placeholder="e.g. Sony SS-CS5"></label></div>`:''}
-    <div><span class="l">Pickup or delivery <em>*</em></span>${chipsRow('pickup',['Pickup only','Can deliver'])}${err('pickup')}</div>
+    ${s.cat==='Electronics'?`<div><span class="l" id="lbl-works">Does it work? <em>*</em></span>${chipsRow('works',['Works fully','Partly works','For parts'])}${err('works')}</div><div><label class="l" for="sell-brand">Brand and model</label><label class="field"><input id="sell-brand" value="${esc(s.brand)}" placeholder="e.g. Sony SS-CS5"></label></div>`:''}
+    <div><span class="l" id="lbl-pickup">Pickup or delivery <em>*</em></span>${chipsRow('pickup',['Pickup only','Can deliver'])}${err('pickup')}</div>
     <div><label class="l" for="sell-desc">Description</label><textarea id="sell-desc" placeholder="Anything a buyer should know: wear, why you're selling, when they can pick up.">${esc(s.desc)}</textarea></div></div>`;
     foot=`<button class="btn sec" data-a="sellprev">Back</button><button class="btn" data-a="sellnext">Next: preview</button>`;
   } else if(st===4){
@@ -729,7 +794,7 @@ V.sell=()=>{
     body=`<div class="pad" style="padding-top:12px"><div class="suggest">${ic('eye')}<span>This is exactly what buyers will see.</span></div></div>
     <div style="margin:12px 16px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--paper)">
       <div style="height:200px" class="ph">${art(r.kind,r.o,r.v)}</div>
-      <div class="ltitle"><h1 style="font-size:20px">${esc(s.title)}</h1><span class="price">$${esc(s.price)}</span></div>
+      <div class="ltitle"><h2 class="h1" style="font-size:20px">${esc(s.title)}</h2><span class="price">${+s.price===0?'Free':'$'+esc(s.price)}</span></div>
       <div class="pad small muted">${esc(S.city)} · ${s.photos.length} photo${s.photos.length===1?'':'s'} · ${esc(s.cat)}</div>
       <div class="facts">${fact('Condition',s.cond)}${fact('Pickup',s.pickup)}${s.cat==='Furniture'?fact('Dimensions',s.dims):''}${s.cat==='Electronics'?fact('Works',s.works):''}${fact('Posted','Just now')}</div>
       ${s.desc?`<div class="body"><p>${esc(s.desc)}</p></div>`:''}</div>
@@ -772,10 +837,11 @@ V.inbox=(p)=>{
 V.saved=()=>{
   const t=S.savedTab, items=[...S.saved].map(byId).filter(Boolean), jobs=[...S.savedJobs].map(jobById);
   let body='';
-  if(t==='items') body=(items.length||jobs.length)?`<div class="res">${items.map(d=>`<div class="rcard"><button data-a="listing" data-id="${d.id}" style="display:contents">${ph(d)}</button><div class="info"><button data-a="listing" data-id="${d.id}" style="text-align:left"><h3>${esc(d.title)}</h3><span class="price">$${d.price}</span><div class="meta">${d.dist} mi · ${d.cond}</div></button></div>${heart(d.id,true)}</div>`).join('')}
+  if(t==='items') body=(items.length||jobs.length)?`<div class="res">${items.map(d=>`<div class="rcard"><button class="phbtn" data-a="listing" data-id="${d.id}" tabindex="-1" aria-hidden="true">${ph(d)}</button><div class="info"><button data-a="listing" data-id="${d.id}" style="text-align:left"><h3>${esc(d.title)}</h3><span class="price">$${d.price}</span><div class="meta">${d.dist} mi · ${d.cond}</div></button></div>${heart(d.id,true)}</div>`).join('')}
      ${jobs.map(j=>`<div class="rcard" style="flex-direction:column"><button data-a="job" data-id="${j.id}" style="text-align:left"><h3>${esc(j.title)}</h3><div class="tags"><span class="tag pay">${esc(j.pay)}</span><span class="tag">${j.style}</span></div><div class="meta">${esc(j.co)}</div></button>${heart(j.id,true,'savejob')}</div>`).join('')}</div>`
      :`<div class="empty"><h3>Nothing saved yet</h3><p class="muted small">Tap the heart on any listing to keep it here.</p></div>`;
-  else if(t==='searches') body=`<div class="pad stack" style="padding-top:4px">${S.searches.map(s=>`<button class="ss" data-a="openss" data-id="${s.id}"><span><strong>${esc(s.label)}</strong><span class="muted">${s.fresh?'New since your last visit':'Nothing new yet'}</span></span><span class="badge ${s.fresh?'':'zero'}">${s.fresh} new</span></button>`).join('')}</div>`;
+  else if(t==='searches') body=S.searches.length?`<div class="pad stack" style="padding-top:4px">${S.searches.map(s=>`<div class="ssrow">${ssBtn(s)}<button class="rmss" data-a="rmss" data-id="${s.id}" aria-label="Remove saved search: ${esc(s.label)}">${ic('x')}</button></div>`).join('')}</div>`
+     :`<div class="empty"><h3>No saved searches</h3><p class="muted small">Tap Save search on any results page and new matches will show on Home.</p></div>`;
   else { const rd=S.recent.map(byId).filter(Boolean), rj=S.recentJobs.map(jobById);
     body=`<div class="res">${rd.map(d=>`<button class="rcard" data-a="listing" data-id="${d.id}">${ph(d)}<span class="info"><h3>${esc(d.title)}</h3><span class="price">$${d.price}</span><span class="meta">${d.dist} mi · ${d.cond}</span></span></button>`).join('')}${rj.map(j=>`<button class="rcard" data-a="job" data-id="${j.id}" style="flex-direction:column"><h3>${esc(j.title)}</h3><span class="meta">${esc(j.pay)} · ${j.style}</span></button>`).join('')}</div>`;}
   return{tab:'saved',body:`
@@ -786,19 +852,21 @@ V.saved=()=>{
 /* ---------- sheets ---------- */
 function sheetHTML(){
   const sh=S.sheet; if(!sh)return'';
-  const wrap=(title,body,foot,right='')=>`<div class="scrim" data-a="closesheet"></div><div class="sheet" role="dialog" aria-label="${esc(title)}"><div class="grab"></div><div class="sh"><h2>${title}</h2>${right||`<button class="iconbtn" data-a="closesheet" aria-label="Close">${ic('x')}</button>`}</div><div class="sb">${body}</div>${foot?`<div class="sf">${foot}</div>`:''}</div>`;
+  /* v2: every sheet is a modal dialog with a visible Close button (Nielsen #3, WCAG 2.4.3) */
+  const wrap=(title,body,foot,right='')=>`<div class="scrim" data-a="closesheet"></div><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-h"><div class="grab"></div><div class="sh"><h2 id="sheet-h" tabindex="-1">${title}</h2><span class="row" style="gap:4px">${right}<button class="iconbtn" data-a="closesheet" aria-label="Close ${esc(title)}">${ic('x')}</button></span></div><div class="sb">${body}</div>${foot?`<div class="sf">${foot}</div>`:''}</div>`;
   if(sh==='filters'){
-    const f=S.fd, n=matchDesks(f,S.q).length;
+    const f=S.fd, n=matchDesks(f,S.q).length, bad=f.min!==''&&f.max!==''&&+f.min>+f.max;
     const g=(k,opts)=>`<div class="chips">${opts.map(([v,l])=>`<button class="chip ${String(f[k])===String(v)?'on':''}" data-a="fset" data-k="${k}" data-val="${v}">${l}</button>`).join('')}</div>`;
     return wrap('Filters',`
-      <div class="fgroup"><h3>Price</h3><div class="minmax"><label class="field">$<input id="fmin" inputmode="numeric" placeholder="Min" value="${esc(f.min)}"></label><label class="field">$<input id="fmax" inputmode="numeric" placeholder="Max" value="${esc(f.max)}"></label></div></div>
+      <div class="fgroup"><h3 id="price-h">Price</h3><div class="minmax"><label class="field ${bad?'bad':''}">$<input id="fmin" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Min" aria-label="Minimum price" value="${esc(f.min)}" ${bad?'aria-invalid="true" aria-describedby="err-range"':''}></label><label class="field ${bad?'bad':''}">$<input id="fmax" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Max" aria-label="Maximum price" value="${esc(f.max)}" ${bad?'aria-invalid="true" aria-describedby="err-range"':''}></label></div>
+        ${bad?`<div class="errline" id="err-range" role="alert"><span>Min ($${esc(f.min)}) is higher than max ($${esc(f.max)}).</span><button class="chip" data-a="fswap">Swap them</button></div>`:''}</div>
       <div class="fgroup"><h3>Distance from you</h3>${g('dist',[[1,'1 mi'],[5,'5 mi'],[10,'10 mi'],[25,'25 mi'],[0,'Any']])}</div>
       <div class="fgroup"><h3>Condition, at least</h3>${g('cond',[['Any','Any'],['Fair','Fair'],['Good','Good'],['Like new','Like new']])}</div>
       <div class="fgroup"><h3>Posted</h3>${g('posted',[['today','Today'],['week','This week'],['any','Any time']])}</div>
       <button class="toggle" data-a="fset" data-k="photos" data-val="${!f.photos}"><span>Has photos</span><span class="sw ${f.photos?'on':''}"></span></button>
       <p class="small muted" style="margin:0">Furniture filters shown. Cars get mileage and year; jobs get pay and work style.</p>`,
-      `<button class="btn" id="fshow" data-a="fapply" ${n?'':'disabled'}>${n?`Show ${n} result${n===1?'':'s'}`:'No matches. Widen a filter.'}</button>`,
-      `<button class="small" style="font-weight:700;color:var(--accent)" data-a="freset">Reset</button>`);
+      `<button class="btn" id="fshow" data-a="fapply" ${n&&!bad?'':'disabled'}>${bad?'Fix the price range first':n?`Show ${n} result${n===1?'':'s'}`:'No matches. Widen a filter.'}</button>`,
+      `<button class="small" style="font-weight:700;color:var(--accent);padding:8px" data-a="freset">Reset</button>`);
   }
   if(sh==='jfilters'){
     const f=S.jfd, n=matchJobs(f).length;
@@ -813,27 +881,65 @@ function sheetHTML(){
     return wrap('Camera roll',`<div class="photogrid">${ROLL.map(r=>{const i=S.rollSel.indexOf(r.id);return`<button class="rollpick ${i>-1?'on':''}" data-a="rollpick" data-id="${r.id}" aria-pressed="${i>-1}"><span class="ph" style="aspect-ratio:1;border-radius:10px">${art(r.kind,r.o,r.v)}</span><span class="sel">${i>-1?i+1:''}</span></button>`}).join('')}</div><p class="small muted" style="margin:0">Tip: pick a few angles. You can add more items afterwards without starting over.</p>`,
       `<button class="btn" data-a="rolladd" ${n?'':'disabled'}>${n?`Add ${n} photo${n===1?'':'s'}`:'Select photos'}</button>`);}
   if(sh==='edit'){const m=S.mine.find(x=>x.id===S.editId);
-    return wrap('Edit price',`<p style="margin:0"><b>${esc(m.title)}</b></p><label class="field">$<input id="edit-price" inputmode="numeric" value="${m.price}"></label><p class="small muted" style="margin:0">People who saved this item will see the new price.</p>`,`<button class="btn" data-a="saveedit">Save price</button>`);}
+    return wrap('Edit price',`<p style="margin:0"><b>${esc(m.title)}</b></p><label class="field">$<input id="edit-price" inputmode="numeric" pattern="[0-9]*" maxlength="6" aria-label="New price in dollars" value="${m.price}"></label><div class="errline" id="err-edit" role="alert" hidden></div><p class="small muted" style="margin:0">Whole dollars. People who saved this item will see the new price.</p>`,`<button class="btn" data-a="saveedit">Save price</button>`);}
   if(sh==='apply'){const j=jobById(S.editId);
     return wrap('How to apply',`<p style="margin:0">${esc(j.co)} takes applications by email. Send your résumé and mention the <b>${esc(j.title)}</b> post.</p><div class="copyrow">${esc(j.apply)}</div><p class="small muted" style="margin:0">Craigslist never asks for your bank details or ID to apply. Report any post that does.</p>`,
       `<button class="btn" data-a="copy" data-t="${esc(j.apply)}">Copy email address</button>`);}
   if(sh==='discard') return wrap('Discard this draft?',`<p style="margin:0">Your photos and details for this item will be removed.</p>`,`<button class="btn sec" data-a="closesheet" style="flex:1">Keep editing</button><button class="btn" data-a="discard">Discard</button>`);
   return '';
 }
-function renderSheet(){const el=$('#sheet');const h=sheetHTML();el.innerHTML=h;el.hidden=!h;}
+/* v2 focus management (WCAG 2.1.1, 2.4.3): remember which control had focus and put it back after a re-render */
+const FK=['a','id','k','q','t','m','c','s','val','i','d','f','kind'];
+function fkey(el){if(!el||el===document.body)return null;if(el.id)return '#'+el.id;const d=el.dataset;if(!d||!d.a)return null;return FK.map(k=>d[k]??'').join('|')}
+function ffind(key,root){if(!key||!root)return null;if(key[0]==='#'){const e=document.getElementById(key.slice(1));return e&&root.contains(e)?e:null}
+  return [...root.querySelectorAll('[data-a]')].find(e=>fkey(e)===key&&!e.disabled)||null}
+function refocus(el){if(!el)return false;el.focus({preventScroll:true});
+  if(el.tagName==='INPUT'&&el.setSelectionRange){try{const n=el.value.length;el.setSelectionRange(n,n)}catch(e){}}return true}
+function pressed(){document.querySelectorAll('#device .chip[data-a="fset"],#device .chip[data-a="jset"],#device .chip[data-a="sellset"],#device .chip[data-a="ask"],#device .chip[data-a="askown"]').forEach(c=>c.setAttribute('aria-pressed',c.classList.contains('on')))}
+let sheetOpener=null;
+function renderSheet(){
+  const el=$('#sheet'), dev=$('#device'), wasOpen=!el.hidden, ae=document.activeElement, inSheet=el.contains(ae), key=inSheet?fkey(ae):null;
+  const h=sheetHTML(); el.innerHTML=h; el.hidden=!h; pressed();
+  const bg=['#screen','#foot','#tabbar'].map(s=>$(s));
+  if(h){
+    bg.forEach(b=>b.inert=true);
+    if(!wasOpen){sheetOpener=(dev.contains(ae)&&!inSheet)?fkey(ae):null;$('#sheet-h')?.focus({preventScroll:true})}
+    else if(!refocus(ffind(key,el))&&inSheet)$('#sheet-h')?.focus({preventScroll:true});
+    return false;
+  }
+  bg.forEach(b=>b.inert=false);
+  if(wasOpen){const t=ffind(sheetOpener,dev);sheetOpener=null;if(t){refocus(t);return true}}
+  return false;
+}
+/* v2 photo gallery: arrows, dots and keyboard (Norman: signifiers and feedback) */
+function galIndex(g){return Math.round(g.scrollLeft/Math.max(1,g.clientWidth))}
+function galStep(d){const g=$('#gallery');if(!g)return;const i=Math.max(0,Math.min(g.children.length-1,galIndex(g)+d));
+  g.scrollTo({left:i*g.clientWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
+function wireGallery(){const g=$('#gallery');if(!g)return;
+  const upd=()=>{const n=g.children.length,i=galIndex(g);$('#galcount').textContent=`${i+1} / ${n}`;
+    document.querySelectorAll('.dots i').forEach((d,j)=>d.classList.toggle('on',j===i));
+    const p=$('.galnav.prev'),x=$('.galnav.next');if(!p)return;
+    const ae=document.activeElement;p.disabled=i===0;x.disabled=i>=n-1;
+    if(ae===p&&p.disabled)x.focus({preventScroll:true});if(ae===x&&x.disabled)p.focus({preventScroll:true})};
+  g.addEventListener('scroll',upd,{passive:true});upd()}
 
 /* ---------- render ---------- */
 const TABS=[['home','Home','home'],['search','Search','search'],['sell','Sell','plus'],['saved','Saved','bookmark'],['me','Me','user']];
 function render(keep){
+  const dev=$('#device'), ae=document.activeElement, inDev=dev.contains(ae)&&ae!==dev, key=inDev&&!$('#sheet').contains(ae)?fkey(ae):null;
   const c=cur(), r=V[c.v](c), scr=$('#screen'), top=scr.scrollTop;
   scr.innerHTML=r.body;
   const foot=$('#foot'); foot.innerHTML=r.foot||''; foot.hidden=!r.foot;
   const tb=$('#tabbar'); tb.hidden=r.tabs===false;
   tb.innerHTML=TABS.map(([k,l,i])=>`<button class="${r.tab===k?'on':''} ${k==='sell'?'sellbtn':''}" data-a="tab" data-t="${k}" ${r.tab===k?'aria-current="page"':''}>${ic(i)}${l}</button>`).join('');
   scr.scrollTop=keep?top:0;
-  renderSheet();
-  const gal=$('#gallery'); if(gal){gal.addEventListener('scroll',()=>{const i=Math.round(gal.scrollLeft/gal.clientWidth)+1;const n=gal.children.length;$('#galcount').textContent=`${i} / ${n}`},{passive:true})}
+  const moved=renderSheet(); pressed(); wireGallery();
   const th=$('#thread'); if(th){scr.scrollTop=scr.scrollHeight}
+  const sel=S.focusSel; S.focusSel=null;
+  if(S.sheet||moved||!inDev)return;
+  if(sel&&refocus(dev.querySelector(sel)))return;
+  if(keep&&refocus(ffind(key,dev)))return;
+  const h=scr.querySelector('h1,.h1');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}else{scr.tabIndex=-1;scr.focus({preventScroll:true})}
 }
 
 /* ---------- actions ---------- */
@@ -853,10 +959,26 @@ const A={
     else toast(`${{housing:'Housing',services:'Services',cars:'Cars & trucks',gigs:'Gigs',community:'Community'}[d.c]} isn't built in this prototype yet`)},
   sub:d=>{if(d.s==='furniture'){S.q='furniture';S.f={min:'',max:'',dist:10,cond:'Any',posted:'any',photos:false};S.cmp=[];go('results')}else toast(`${d.s.charAt(0).toUpperCase()+d.s.slice(1)} isn't built in this prototype yet`)},
   listing:d=>{S.recent=[d.id,...S.recent.filter(x=>x!==d.id)].slice(0,8);S.ask=null;S.askOwn=false;S.askText='';go('listing',{id:d.id});done('sarah',3)},
-  save:d=>{const on=S.saved.has(d.id);on?S.saved.delete(d.id):S.saved.add(d.id);render(true);toast(on?'Removed from Saved':'Saved. Find it in the Saved tab.')},
-  savejob:d=>{const on=S.savedJobs.has(d.id);on?S.savedJobs.delete(d.id):S.savedJobs.add(d.id);render(true);toast(on?'Removed from Saved':'Job saved. Find it in the Saved tab.');if(!on)done('mary',3)},
+  save:d=>{const on=S.saved.has(d.id);on?S.saved.delete(d.id):S.saved.add(d.id);render(true);
+    on?toast(`Removed ${byId(d.id).title} from Saved`,()=>{S.saved.add(d.id);render(true)}):toast('Saved. Find it in the Saved tab.')},
+  savejob:d=>{const on=S.savedJobs.has(d.id);on?S.savedJobs.delete(d.id):S.savedJobs.add(d.id);render(true);
+    on?toast(`Removed ${jobById(d.id).title} from Saved`,()=>{S.savedJobs.add(d.id);render(true)}):toast('Job saved. Find it in the Saved tab.');if(!on)done('mary',3)},
+  rmss:d=>{const i=S.searches.findIndex(s=>s.id===d.id),s=S.searches[i];S.searches.splice(i,1);
+    S.focusSel=S.searches.length?'.rmss':'[data-a="savedtab"][data-k="searches"]';render(true);
+    toast(`Removed saved search “${s.q||'everything'}”`,()=>{S.searches.splice(i,0,s);render(true)})},
+  clearall:()=>{const prev={...S.f};S.f={min:'',max:'',dist:0,cond:'Any',posted:'any',photos:false};S.focusSel='[data-a="filters"]';render(true);done('sarah',1);
+    toast(`Cleared all filters · ${matchDesks(S.f,S.q).length} results`,()=>{S.f=prev;render(true)})},
+  clearsel:d=>{const job=d.kind==='job',prev=job?[...S.jcmp]:[...S.cmp];if(job)S.jcmp=[];else S.cmp=[];render(true);
+    toast('Compare selection cleared',()=>{if(job)S.jcmp=prev;else S.cmp=prev;render(true)})},
+  fswap:()=>{const f=S.fd;[f.min,f.max]=[f.max,f.min];S.focusSel=null;renderSheet();refocus($('#fshow'))},
+  galnav:d=>galStep(+d.d),
+  tofield:d=>{const el=document.getElementById(d.f);if(!el)return;el.scrollIntoView({block:'center'});
+    const t=el.matches('input,select,textarea')?el:(el.querySelector('button')||el);t.focus({preventScroll:true})},
   share:()=>toast('Link copied'),
-  chipx:d=>{const f=S.f;({max:()=>f.max='',min:()=>f.min='',dist:()=>f.dist=0,cond:()=>f.cond='Any',posted:()=>f.posted='any',photos:()=>f.photos=false})[d.k]();render(true);done('sarah',1)},
+  chipx:d=>{const f=S.f,prev={...f},label=(filterChips(f).find(c=>c[0]===d.k)||[,''])[1];
+    ({max:()=>f.max='',min:()=>f.min='',dist:()=>f.dist=0,cond:()=>f.cond='Any',posted:()=>f.posted='any',photos:()=>f.photos=false})[d.k]();
+    S.focusSel='[data-a="filters"]';render(true);done('sarah',1);
+    toast(`Removed “${label}” · ${matchDesks(S.f,S.q).length} results`,()=>{S.f=prev;render(true)})},
   filters:()=>{S.fd={...S.f};S.sheet='filters';renderSheet()},
   fset:d=>{let v=d.val;if(d.k==='dist')v=+v;if(d.k==='photos')v=v==='true';S.fd[d.k]=v;renderSheet()},
   freset:()=>{S.fd={min:'',max:'',dist:0,cond:'Any',posted:'any',photos:false};renderSheet()},
@@ -877,7 +999,9 @@ const A={
   jfilters:()=>{S.jfd={...S.jf,styles:[...S.jf.styles]};S.sheet='jfilters';renderSheet()},
   jset:d=>{const f=S.jfd;if(d.k==='styles'){const i=f.styles.indexOf(d.val);i>-1?f.styles.splice(i,1):f.styles.push(d.val)}else if(d.k==='minPay')f.minPay=+d.val;else f.type=d.val;renderSheet()},
   japply:()=>{S.jf=S.jfd;S.sheet=null;S.jcmp=S.jcmp.filter(id=>matchJobs(S.jf).some(j=>j.id===id));render();done('mary',1)},
-  jchipx:d=>{if(d.k==='styles')S.jf.styles=[];if(d.k==='minPay')S.jf.minPay=0;if(d.k==='type')S.jf.type='any';render(true);done('mary',1)},
+  jchipx:d=>{const prev={...S.jf,styles:[...S.jf.styles]};if(d.k==='styles')S.jf.styles=[];if(d.k==='minPay')S.jf.minPay=0;if(d.k==='type')S.jf.type='any';
+    S.focusSel='[data-a="jfilters"]';render(true);done('mary',1);
+    toast(`Filter removed · ${matchJobs(S.jf).length} jobs`,()=>{S.jf=prev;render(true)})},
   jcmp:d=>{const i=S.jcmp.indexOf(d.id);if(i>-1)S.jcmp.splice(i,1);else{if(S.jcmp.length>=3){toast('Compare up to 3 at a time');return}S.jcmp.push(d.id)}render(true)},
   jcompare:()=>{go('compare',{kind:'job'});done('mary',2)},
   job:d=>{S.recentJobs=[d.id,...S.recentJobs.filter(x=>x!==d.id)].slice(0,6);go('job',{id:d.id})},
@@ -895,7 +1019,7 @@ const A={
     if(s.step===1&&!s.photos.length)e.photos='Add at least one photo.';
     if(s.step===2){if(!s.title.trim())e.title='Give your item a title.';if(!s.cat)e.cat='Choose a category so buyers can find it.'}
     if(s.step===3){if(s.price===''||isNaN(+s.price)||+s.price<0)e.price='Enter a price in dollars, or 0 to list it free.';if(!s.cond)e.cond='Pick the condition.';if(!s.pickup)e.pickup='Choose pickup or delivery.';if(s.cat==='Electronics'&&!s.works)e.works='Say whether it works.'}
-    s.err=e;if(Object.keys(e).length){render(true);return}
+    s.err=e;if(Object.keys(e).length){render(true);const es=$('#errsum');if(es){$('#screen').scrollTop=0;es.focus({preventScroll:true})}return}
     if(s.step===2)done('matt',1);if(s.step===3)done('matt',2);s.step++;render()},
   post:()=>{const s=S.sell,r=ROLL.find(x=>x.id===s.photos[0]);
     S.mine.unshift({id:'m'+Date.now(),title:s.title.trim(),price:+s.price,views:0,status:'active',kind:r.kind,o:r.o,msgs:[]});
@@ -906,7 +1030,9 @@ const A={
   discard:()=>{S.sell=freshSell();S.sheet=null;S.stack=[{v:'home'}];render()},
   mtab:d=>{S.mtab=d.k;render(true)},
   edit:d=>{S.editId=d.id;S.sheet='edit';renderSheet();setTimeout(()=>$('#edit-price')?.select(),30)},
-  saveedit:()=>{const m=S.mine.find(x=>x.id===S.editId),v=$('#edit-price').value.trim();if(v===''||isNaN(+v)){toast('Enter a price in dollars');return}m.price=+v;S.sheet=null;render(true);toast(`Price updated to $${m.price}`)},
+  saveedit:()=>{const m=S.mine.find(x=>x.id===S.editId),inp=$('#edit-price'),v=inp.value.trim(),er=$('#err-edit');
+    if(v===''){er.textContent='Enter a price in whole dollars, or 0 to make it free.';er.hidden=false;inp.setAttribute('aria-invalid','true');inp.setAttribute('aria-describedby','err-edit');inp.closest('.field').classList.add('bad');inp.focus();return}
+    const old=m.price;m.price=+v;S.sheet=null;render(true);toast(`Price changed from $${old} to $${m.price}`,()=>{m.price=old;render(true)})},
   sold:d=>{const m=S.mine.find(x=>x.id===d.id);m.status='sold';render(true);if(m.id==='m1')done('matt',4);
     toast(`${m.title} marked sold. Buyers can no longer message about it.`,()=>{m.status='active';render(true)})},
   renew:d=>{const m=S.mine.find(x=>x.id===d.id);m.status='active';S.mtab='active';render(true);toast(`${m.title} renewed for 30 days`)},
@@ -914,7 +1040,7 @@ const A={
   inbox:d=>go('inbox',{id:d.id}),
   reply:d=>{const m=S.mine.find(x=>x.id===d.id);m.msgs[+d.i].reply=d.q;render(true);toast(`Reply sent to ${m.msgs[+d.i].from}`)},
   savedtab:d=>{S.savedTab=d.k;render(true)},
-  undo:()=>{toast.undo&&toast.undo();$('#toast').hidden=true}
+  undo:()=>{const u=toast.undo;toast.undo=null;$('#toast').hidden=true;if(u){u();toast('Undone')}}
 };
 function runQuery(q){q=(q||'').trim();if(!q)return;
   if(/account|job|bookkeep|payroll|part-time/i.test(q)){go('jobs');done('mary',0);return}
@@ -938,14 +1064,28 @@ dev.addEventListener('submit',e=>{e.preventDefault();
   if(e.target.id==='searchform')runQuery($('#q-search').value);
   if(e.target.id==='resform'){S.q=$('#q-res').value.trim().toLowerCase();render()}
   if(e.target.id==='threadform'){const v=$('#thread-in').value.trim();if(!v)return;const id=cur().id;S.threads[id].push({me:true,text:v});render();sellerReply(id,v,byId(id))}});
-dev.addEventListener('input',e=>{const id=e.target.id,v=e.target.value;
-  if(id==='sell-title'){S.sell.title=v;delete S.sell.err.title;const sug=suggestCat(v);if(sug&&!S.sell.cat)S.sell.cat=sug;const sel=$('#sell-cat');if(sel)sel.value=S.sell.cat;$('#catsug').innerHTML=catSuggestHTML(sug)}
-  if(id==='sell-price'){S.sell.price=v.replace(/[^0-9.]/g,'')}
+/* v2: keyboard — Esc closes a sheet, Tab stays inside it, arrow keys move through photos */
+dev.addEventListener('keydown',e=>{
+  const sh=$('#sheet');
+  if(!sh.hidden){
+    if(e.key==='Escape'){e.preventDefault();A.closesheet();return}
+    if(e.key==='Tab'){const f=[...sh.querySelectorAll('.sheet button:not([disabled]),.sheet input,.sheet select,.sheet textarea')].filter(x=>x.offsetParent!==null);
+      if(!f.length)return;const first=f[0],last=f[f.length-1],a=document.activeElement;
+      if(e.shiftKey&&(a===first||a.id==='sheet-h')){e.preventDefault();last.focus()}else if(!e.shiftKey&&a===last){e.preventDefault();first.focus()}}
+    return}
+  if(e.target.id==='gallery'&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){e.preventDefault();galStep(e.key==='ArrowRight'?1:-1)}
+});
+dev.addEventListener('input',e=>{const id=e.target.id;let v=e.target.value;
+  /* v2 (Shneiderman #5): price fields accept whole dollars only, so letters and symbols can't be typed */
+  if(['sell-price','fmin','fmax','edit-price'].includes(id)){const c=v.replace(/[^0-9]/g,'').slice(0,6);if(c!==v)e.target.value=c;v=c}
+  if(id==='sell-title'){S.sell.title=v;$('#title-count').textContent=v.length;if(v.trim())clearErr('title');const sug=suggestCat(v);if(sug&&!S.sell.cat)S.sell.cat=sug;const sel=$('#sell-cat');if(sel)sel.value=S.sell.cat;if(S.sell.cat)clearErr('cat');$('#catsug').innerHTML=catSuggestHTML(sug)}
+  if(id==='sell-price'){S.sell.price=v;if(v!=='')clearErr('price')}
+  if(id==='edit-price'&&v!==''){const er=$('#err-edit');if(er)er.hidden=true;e.target.removeAttribute('aria-invalid');e.target.closest('.field')?.classList.remove('bad')}
   if(id==='sell-dims')S.sell.dims=v; if(id==='sell-desc')S.sell.desc=v; if(id==='sell-brand')S.sell.brand=v;
   if(id==='ask-own'){S.askText=v;const b=$('#foot [data-a="sendask"]');if(b)b.disabled=!v.trim()}
-  if(id==='fmin'||id==='fmax'){S.fd[id==='fmin'?'min':'max']=v.replace(/[^0-9]/g,'');const n=matchDesks(S.fd,S.q).length,b=$('#fshow');b.disabled=!n;b.textContent=n?`Show ${n} result${n===1?'':'s'}`:'No matches. Widen a filter.'}
+  if(id==='fmin'||id==='fmax'){S.fd[id==='fmin'?'min':'max']=v;renderSheet()}
 });
-dev.addEventListener('change',e=>{if(e.target.id==='sort'){S.sort=e.target.value;render(true)}if(e.target.id==='sell-cat'){S.sell.cat=e.target.value;delete S.sell.err.cat;$('#catsug').innerHTML=catSuggestHTML(suggestCat(S.sell.title))}});
+dev.addEventListener('change',e=>{if(e.target.id==='sort'){S.sort=e.target.value;render(true)}if(e.target.id==='sell-cat'){S.sell.cat=e.target.value;if(S.sell.cat)clearErr('cat');$('#catsug').innerHTML=catSuggestHTML(suggestCat(S.sell.title))}});
 
 /* ---------- panel ---------- */
 function renderPanel(){['sarah','mary','matt'].forEach(p=>{document.querySelectorAll(`#task-${p} li`).forEach((li,i)=>li.classList.toggle('ok',S.done[p].has(i)))})}
@@ -958,6 +1098,16 @@ const JUMPS=[['Home',()=>[{v:'home'}]],['Search results',()=>{S.q='desk';return[
   ['Compare jobs',()=>{S.jcmp=['j1','j2','j3'];return[{v:'home'},{v:'jobs'},{v:'compare',kind:'job'}]}],['Sell wizard',()=>{S.sell=freshSell();return[{v:'sell'}]}],['My listings',()=>[{v:'mine'}]],['Seller inbox',()=>[{v:'mine'},{v:'inbox',id:'m1'}]],['Saved',()=>[{v:'saved'}]]];
 $('#jump').innerHTML=JUMPS.map(([l],i)=>`<button class="chip" data-j="${i}">${l}</button>`).join('');
 $('#jump').addEventListener('click',e=>{const b=e.target.closest('[data-j]');if(!b)return;S.sheet=null;S.stack=JUMPS[+b.dataset.j][1]();render()});
+/* v2: "Show" buttons in the What changed panel open the screen where each change is visible */
+const deskF=()=>({min:'',max:100,dist:5,cond:'Good',posted:'any',photos:true});
+const SHOW={
+  r1:()=>{S.q='desk';S.f=deskF();S.cmp=['d1'];S.stack=[{v:'home'},{v:'results'},{v:'listing',id:'d1'}];render();toast('Use the arrows or dots to see all 6 photos')},
+  r2:()=>{S.q='desk';S.f=deskF();S.stack=[{v:'home'},{v:'results'}];render();toast('Remove a filter or tap Clear all, then Undo')},
+  r3:()=>{S.city='Austin';S.sell={...freshSell(),step:3,photos:['p1','p2'],title:'Old wood dresser',cat:'Furniture'};S.stack=[{v:'sell'}];render();A.sellnext()},
+  r4:()=>{S.q='desk';S.f=deskF();S.cmp=['d1'];S.stack=[{v:'home'},{v:'results'}];render();toast('Field, chip and checkbox borders now meet 3:1')},
+  r5:()=>{S.q='desk';S.f=deskF();S.stack=[{v:'home'},{v:'results'}];render();S.fd={...S.f};S.sheet='filters';renderSheet();toast('Press Tab: focus stays in the sheet. Esc closes it.')}
+};
+document.querySelectorAll('[data-show]').forEach(b=>b.addEventListener('click',()=>{S.sheet=null;renderSheet();SHOW[b.dataset.show]();if(window.innerWidth<=900)dev.scrollIntoView({behavior:'smooth',block:'start'})}));
 
 render();renderPanel();
 })();
